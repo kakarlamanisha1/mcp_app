@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+requests
+python-dotenv
+mcp
+streamlit
+httpx
+openai
+firecrawl-py
+ragie
