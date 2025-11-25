@@ -18,8 +18,8 @@ OPENWEATHER_BASE_URL = os.getenv("OPENWEATHER_BASE_URL", "http://api.openweather
 mcp = FastMCP("weather-assistant")
 
 # Initialize FireCrawl and Ragie clients
-firecrawl_app = None
-ragie_client = None
+# firecrawl_app = None
+# ragie_client = None
 
 # try:
 #     from firecrawl import FirecrawlApp
@@ -144,3 +144,4 @@ app.mount("/mcp", mcp.sse_app())
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
