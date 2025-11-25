@@ -12,7 +12,7 @@ from mcp.types import CallToolResult, TextContent
 # Load environment variables
 load_dotenv()
 # Configuration
-SERVER_URL = "http://localhost:8000/mcp/sse"
+SERVER_URL = "https://mcp-app.onrender.com"
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 
@@ -158,3 +158,4 @@ for msg in st.session_state.messages:
 if prompt := st.chat_input("Ask about the weather..."):
     asyncio.run(run_agent_turn(prompt))
     st.rerun()
+
