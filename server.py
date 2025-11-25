@@ -10,8 +10,8 @@ load_dotenv()
 
 OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
 OPENWEATHER_BASE_URL = os.getenv("OPENWEATHER_BASE_URL", "http://api.openweathermap.org/data/2.5")
-FIRECRAWL_API_KEY = os.getenv("FIRECRAWL_API_KEY")
-RAGIE_API_KEY = os.getenv("RAGIE_API_KEY")
+# FIRECRAWL_API_KEY = os.getenv("FIRECRAWL_API_KEY")
+# RAGIE_API_KEY = os.getenv("RAGIE_API_KEY")
 
 # Initialize MCP Server
 # FastMCP is an ASGI application that can be run directly or mounted
@@ -21,17 +21,17 @@ mcp = FastMCP("weather-assistant")
 firecrawl_app = None
 ragie_client = None
 
-try:
-    from firecrawl import FirecrawlApp
-    firecrawl_app = FirecrawlApp(api_key=FIRECRAWL_API_KEY)
-except ImportError:
-    print("FireCrawl library not installed. Install with: pip install firecrawl-py")
+# try:
+#     from firecrawl import FirecrawlApp
+#     firecrawl_app = FirecrawlApp(api_key=FIRECRAWL_API_KEY)
+# except ImportError:
+#     print("FireCrawl library not installed. Install with: pip install firecrawl-py")
 
-try:
-    from ragie import Ragie
-    ragie_client = Ragie(auth=RAGIE_API_KEY)
-except ImportError:
-    print("Ragie library not installed. Install with: pip install ragie")
+# try:
+#     from ragie import Ragie
+#     ragie_client = Ragie(auth=RAGIE_API_KEY)
+# except ImportError:
+#     print("Ragie library not installed. Install with: pip install ragie")
 
 
 async def _get_weather_data(endpoint: str, params: Dict[str, Any]) -> Dict[str, Any]:
@@ -95,44 +95,44 @@ async def get_forecast(city: str, days: int = 3) -> str:
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
-@mcp.tool()
-async def scrape_weather_news(url: str) -> str:
-    """Scrape weather-related news or information from a given URL using FireCrawl.
+# @mcp.tool()
+# async def scrape_weather_news(url: str) -> str:
+#     """Scrape weather-related news or information from a given URL using FireCrawl.
     
-    Args:
-        url: The URL of the webpage to scrape for weather information.
-    """
-    if not firecrawl_app:
-        return "FireCrawl is not configured. Please check your installation and API key."
+#     Args:
+#         url: The URL of the webpage to scrape for weather information.
+#     """
+#     if not firecrawl_app:
+#         return "FireCrawl is not configured. Please check your installation and API key."
     
-    try:
-        # Scrape the URL
-        print(f"Attempting to scrape: {url}")  # Debug line
-        scrape_result = firecrawl_app.scrape(url=url)
-        print(f"Scrape successful: {type(scrape_result)}")  # Debug line
-        return f"Scraped content from {url}: {scrape_result}"
-    except Exception as e:
-        print(f"Scraping error: {str(e)}")  # Debug line
-        return f"Error scraping {url}: {str(e)}"
+#     try:
+#         # Scrape the URL
+#         print(f"Attempting to scrape: {url}")  # Debug line
+#         scrape_result = firecrawl_app.scrape(url=url)
+#         print(f"Scrape successful: {type(scrape_result)}")  # Debug line
+#         return f"Scraped content from {url}: {scrape_result}"
+#     except Exception as e:
+#         print(f"Scraping error: {str(e)}")  # Debug line
+#         return f"Error scraping {url}: {str(e)}"
 
-@mcp.tool()
-async def retrieve_weather_knowledge(query: str) -> str:
-    """Retrieve enhanced weather information using Ragie RAG.
+# @mcp.tool()
+# async def retrieve_weather_knowledge(query: str) -> str:
+#     """Retrieve enhanced weather information using Ragie RAG.
     
-    Args:
-        query: The weather-related query to search for in the knowledge base.
-    """
-    if not ragie_client:
-        return "Ragie is not configured. Please check your installation and API key."
+#     Args:
+#         query: The weather-related query to search for in the knowledge base.
+#     """
+#     if not ragie_client:
+#         return "Ragie is not configured. Please check your installation and API key."
     
-    try:
-        # Retrieve relevant information using Ragie
-        # This is a placeholder - actual implementation depends on how you've set up your Ragie knowledge base
-        # For now, we'll use a simple search method
-        search_result = ragie_client.search(query=query)
-        return f"Retrieved knowledge for '{query}': {search_result}"
-    except Exception as e:
-        return f"Error retrieving knowledge for '{query}': {str(e)}"
+#     try:
+#         # Retrieve relevant information using Ragie
+#         # This is a placeholder - actual implementation depends on how you've set up your Ragie knowledge base
+#         # For now, we'll use a simple search method
+#         search_result = ragie_client.search(query=query)
+#         return f"Retrieved knowledge for '{query}': {search_result}"
+#     except Exception as e:
+#         return f"Error retrieving knowledge for '{query}': {str(e)}"
 
 # Create main FastAPI app and mount MCP
 app = FastAPI(title="Weather Assistant API")
